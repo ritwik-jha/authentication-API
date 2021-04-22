@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
+import csv
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dlskfjlkjdalskfjklajdflk'
@@ -39,10 +40,6 @@ def signup(username,email,passwd):
 
 @app.route('/login/<email>/<password>')
 def login(email,password):
-    '''    if current_user.is_authenticated:
-        current_user_id = current_user.get_id()
-        return 'user ' + str(User.query.filter_by(id=current_user_id).first().username) + ' is logged in, please logout first'
-        else:'''
     user = User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.passwd, password):
         login_user(user, remember=True)
@@ -67,9 +64,38 @@ def logout():
     else:
         return 'No user logged in'
 
-@app.route('/database')
-def database():
-    return 
+@app.route('/dump')
+def dump():
+    rows = []
+    for i in User.query.all():
+        row = []
+        row.append(i.id)
+        row.append(i.username)
+        row.append(i.email)
+        row.append(i.passwd)
+        rows.append(row)
+    
+    fields = ['id','username','email','password']
+    filename = 'backup.csv'
+    with open(filename, 'w') as csvfile: 
+        csvwriter = csv.writer(csvfile) 
+        csvwriter.writerow(fields) 
+        csvwriter.writerows(rows)
+    
+    return 'Backup done'
+
+open_read = open('C:/Users/Ritwik Jha/Desktop/Resources/PROJECTS/authentication-API/auth-app/backup.csv','r')
+page =''
+
+while True:
+    read_data = open_read.readline()
+    page += '<p>%s</p>' % read_data
+    if open_read.readline() == '':
+        break
+
+@app.route('/showbackup')
+def showbackup():
+    return page
 
 if __name__ == '__main__':
     app.run(port=80, debug=True)
