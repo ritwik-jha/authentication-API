@@ -90,7 +90,7 @@ def dump():
 
 @app.route('/showbackup')
 def showbackup():
-    open_read = open('C:/Users/Ritwik Jha/Desktop/Resources/PROJECTS/authentication-API/auth-app/backup.csv','r')
+    open_read = open('path_to_backup.csv','r')
     page =''
 
     while True:
