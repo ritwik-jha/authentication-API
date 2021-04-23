@@ -90,15 +90,33 @@ def dump():
 
 @app.route('/showbackup')
 def showbackup():
-    open_read = open('path_to_backup.csv','r')
-    page =''
+#    open_read = open('/root/authentication-API/auth-app/backup.csv','r')
+#    page =''
 
-    while True:
-        read_data = open_read.readline()
-        page += '<p>%s</p>' % read_data
-        if open_read.readline() == '':
-            break
-    return page
+#    while True:
+#        read_data = open_read.readline()
+#        page += '<p>%s</p>' % read_data
+#        if open_read.readline() == '':
+#            break
+#    open_read.close()
+#    return page
+    file = open('/root/authentication-API/auth-app/backup.csv', 'r')
+
+    op = []
+
+    for i in file:
+         op.append(i.strip())
+         op.append('<br>')
+
+    file.close()
+
+    string = ''
+
+    final = string.join(op)  
+    return final
+
+
+
 
 if __name__ == '__main__':
-    app.run(port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
