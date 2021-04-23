@@ -90,28 +90,13 @@ def dump():
 
 @app.route('/showbackup')
 def showbackup():
-#    open_read = open('/root/authentication-API/auth-app/backup.csv','r')
-#    page =''
-
-#    while True:
-#        read_data = open_read.readline()
-#        page += '<p>%s</p>' % read_data
-#        if open_read.readline() == '':
-#            break
-#    open_read.close()
-#    return page
     file = open('/root/authentication-API/auth-app/backup.csv', 'r')
-
     op = []
-
     for i in file:
          op.append(i.strip())
          op.append('<br>')
-
     file.close()
-
     string = ''
-
     final = string.join(op)  
     return final
 
