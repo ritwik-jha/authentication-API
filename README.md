@@ -13,7 +13,7 @@ The routes are as follows:
 ```
 http://15.207.114.217:80/signup/<username>/<email_address>/<password>
 ```
-This will register a new user in the database and the user can use these credentials to login. Note that the username and email should be unique.
+The user needs to enter his/her credentials in the form shown above. This will register a new user in the database and the user can use these credentials to login. Note that the username and email should be unique.
 
 
 ### To login as a user:
