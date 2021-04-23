@@ -49,18 +49,20 @@ def login(email,password):
 
 @app.route('/currentuser')
 def currentuser():
-    current_user_id = current_user.get_id()
-    if User.query.filter_by(id=current_user_id).first():
-        return 'user ' + str(User.query.filter_by(id=current_user_id).first().username) + ' is logged in'
+    if current_user.is_authenticated:
+        current_user_id = current_user.get_id()
+        if User.query.filter_by(id=current_user_id).first():
+            return 'user ' + str(User.query.filter_by(id=current_user_id).first().username) + ' is logged in'
     else:
-        return 'No user logged in'
+        return 'No user logged in !! Login to continue '
 
 @app.route('/logout')
 def logout():
-    if User.query.filter_by(id=current_user.get_id()).first():
-        current_user_name =  User.query.filter_by(id=current_user.get_id()).first().username
-        logout_user()
-        return 'successfully logged out user {}'.format(current_user_name)
+    if current_user.is_authenticated:
+        if User.query.filter_by(id=current_user.get_id()).first():
+            current_user_name =  User.query.filter_by(id=current_user.get_id()).first().username
+            logout_user()
+            return 'successfully logged out user {}'.format(current_user_name)
     else:
         return 'No user logged in'
 
@@ -84,17 +86,18 @@ def dump():
     
     return 'Backup done'
 
-open_read = open('C:/Users/Ritwik Jha/Desktop/Resources/PROJECTS/authentication-API/auth-app/backup.csv','r')
-page =''
 
-while True:
-    read_data = open_read.readline()
-    page += '<p>%s</p>' % read_data
-    if open_read.readline() == '':
-        break
 
 @app.route('/showbackup')
 def showbackup():
+    open_read = open('C:/Users/Ritwik Jha/Desktop/Resources/PROJECTS/authentication-API/auth-app/backup.csv','r')
+    page =''
+
+    while True:
+        read_data = open_read.readline()
+        page += '<p>%s</p>' % read_data
+        if open_read.readline() == '':
+            break
     return page
 
 if __name__ == '__main__':
