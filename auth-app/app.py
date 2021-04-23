@@ -25,6 +25,14 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return ('User(id: {0}, username: {1}, email: {2})'.format(self.id, self.username, self.email))
 
+@app.route('/signup')
+def signuponly():
+    return 'use proper route <br> http://ip:80/signup/<username>/<email>/<password>'
+
+@app.route('/login')
+def loginonly():
+    return 'use proper route <br> http://ip:80/login/<email>/<password>'
+    
 @app.route('/signup/<username>/<email>/<passwd>')
 def signup(username,email,passwd):
     name_exist = User.query.filter_by(username=username).first()
