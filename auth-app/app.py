@@ -27,11 +27,11 @@ class User(db.Model, UserMixin):
 
 @app.route('/signup')
 def signuponly():
-    return 'use proper route <br> http://ip:80/signup/<username>/<email>/<password>'
+    return 'use proper route: <br> http://ip:80/signup/username/email/password'
 
 @app.route('/login')
 def loginonly():
-    return 'use proper route <br> http://ip:80/login/<email>/<password>'
+    return 'use proper route: <br> http://ip:80/login/email/password'
     
 @app.route('/signup/<username>/<email>/<passwd>')
 def signup(username,email,passwd):
@@ -51,7 +51,7 @@ def login(email,password):
     user = User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.passwd, password):
         login_user(user, remember=True)
-        return 'Login successful ;)'
+        return 'Login for user {} is successful ;)'.format(user.username)
     else:
         return 'No such user !!! please check your credentials'
 
